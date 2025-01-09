@@ -5,17 +5,22 @@ from base_dados import obras
 def Galeria():
     indice_obra, set_indice_obra = hooks.use_state(0)
 
-    obra = obras[indice_obra]
-    nome = obra["name"]
-    artista = obra["artist"]
-    descricao = obra["description"]
-    imagem_url = obra["url"]
-
     def obra_anterior(evento):
         set_indice_obra(indice_obra - 1)
     
     def obra_proxima(evento):
         set_indice_obra(indice_obra + 1)
+
+    if indice_obra >= len(obras):
+        set_indice_obra(len(obras) - 1)
+    elif indice_obra < 0:
+        set_indice_obra(0)
+
+    obra = obras[indice_obra]
+    nome = obra["name"]
+    artista = obra["artist"]
+    descricao = obra["description"]
+    imagem_url = obra["url"]
 
     componente = html.div(
         html.h3(nome), # nome
